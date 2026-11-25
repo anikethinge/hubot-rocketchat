@@ -111,9 +111,10 @@ class RocketChatBotAdapter extends Adapter {
     }
 
     // Direct messages prepend bot's name so Hubot can `.respond`
-    const startOfText = (message.msg.indexOf('@') === 0) ? 1 : 0
-    const robotIsNamed = message.msg.indexOf(this.robot.name) === startOfText || message.msg.indexOf(this.robot.alias) === startOfText
-    if ((isDM || isLC) && !robotIsNamed) message.msg = `${this.robot.name} ${message.msg}`
+    const msgText = message.msg || ''
+    const startOfText = (msgText.indexOf('@') === 0) ? 1 : 0
+    const robotIsNamed = msgText.indexOf(this.robot.name) === startOfText || msgText.indexOf(this.robot.alias) === startOfText
+    if ((isDM || isLC) && !robotIsNamed) message.msg = `${this.robot.name} ${msgText}`
 
     // Attachments, format properties for Hubot
     if (Array.isArray(message.attachments) && message.attachments.length) {
